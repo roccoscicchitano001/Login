@@ -1,5 +1,6 @@
-# angular-8-registration-login-example
+# Modulo login - registrazione
+## Implementato con un fake backend
 
-Angular 8 User Registration and Login Example with Webpack 4
-
-Full tutorial with example available at https://jasonwatmore.com/post/2019/06/10/angular-8-user-registration-and-login-example-tutorial
+Per avviare è necessario installare python e angular, successivamente:
+1. npm install
+1. npm start
