@@ -659,6 +659,163 @@ paths:
           $ref: "#/components/responses/NotFoundError"
         "401":
           $ref: "#/components/responses/UnauthorizedError"
+  /files:
+    get:
+      summary: Get a list of all files
+      description: Restricted to admin users.
+      operationId: getAllFiles
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: An array of all files
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    emailMedico:
+                      type: string
+                      example: "medico@mail.com"
+                    emailPaziente:
+                      type: string
+                      example: "paziente@mail.com"
+                    ifFile:
+                      type: number
+                      example: 1
+                    nomeFile:
+                      type: string
+                      example: "Nome del file"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+    post:
+      summary: Create a new file
+      description: Restricted to admin users.
+      operationId: createFile
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                emailMedico:
+                  type: string
+                  example: "medico@mail.com"
+                emailPaziente:
+                  type: string
+                  example: "paziente@mail.com"
+                ifFile:
+                  type: number
+                  example: 1
+                nomeFile:
+                  type: string
+                  example: "Nome del file"
+              required:
+                - emailMedico
+                - emailPaziente
+                - ifFile
+                - email
+                - nomeFile
+      responses:
+        "200":
+          description: File created successfully!
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  emailMedico:
+                    type: string
+                    example: "medico@mail.com"
+                  emailPaziente:
+                    type: string
+                    example: "paziente@mail.com"
+                  ifFile:
+                    type: number
+                    example: 1
+                  nomeFile:
+                    type: string
+                    example: "Nome del file"
+        "400":
+          description: File is already uploaded
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "File is already uploaded"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+  /files/{id}:
+    parameters:
+      - in: path
+        name: id
+        description: File id
+        required: true
+        example: "5eb12e197e06a76ccdefc121"
+        schema:
+          type: string
+    get:
+      summary: Get a single file by id
+      description: Admin users can access any file.
+      operationId: getFileById
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: Details of the specified file
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: "7623482347ggghrb23i"
+                  emailMedico:
+                    type: string
+                    example: "medico@mail.com"
+                  emailPaziente:
+                    type: string
+                    example: "paziente@mail.com"
+                  ifFile:
+                    type: number
+                    example: 1
+                  nomeFile:
+                    type: string
+                    example: "Nome del file"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
+    delete:
+      summary: Delete an file
+      description: Admin users can delete any file.
+      operationId: deleteFile
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: File deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "File deleted successfully"
+        "404":
+          $ref: "#/components/responses/NotFoundError"
+        "401":
+          $ref: "#/components/responses/UnauthorizedError"
 
 components:
   securitySchemes:
