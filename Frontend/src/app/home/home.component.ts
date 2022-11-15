@@ -39,4 +39,13 @@ export class HomeComponent {
             }
         }
     }
+
+    getMedico(emailMedico:string){
+        this.i=0;
+        for (; this.i<Object.keys(this.accounts).length;this.i++){
+            if (this.accounts[this.i].email===emailMedico){
+                return this.accounts[this.i].firstName + " " + this.accounts[this.i].lastName
+            }
+        }
+    }
 }

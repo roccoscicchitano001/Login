@@ -2,8 +2,64 @@
     <div class="container">
         <h1>Ciao {{account.firstName}}!</h1>
         <h2>Ruolo dell'utente: {{account.role}}</h2>
-        <p>Questa applicazione è stata realizzata per permettere agli utenti di accedere, con permessi differenti, ai file caricati sul database MongoDB!</p>
-        <p>I medici, rispetto ai pazienti, avranno un tab in più che consentirà loro di eliminare i files caricati sul database.</p>
-        <p>I pazienti potranno consultare\scaricare i file di loro interesse.</p>
+        <br/>
+        <div>
+            <p>Questa applicazione è stata realizzata per permettere agli utenti di accedere, con permessi differenti, ai file caricati sul database MongoDB! <br/>
+               I medici, rispetto ai pazienti, avranno un tab in più che consentirà loro di eliminare i files caricati sul database. <br/>
+               I pazienti potranno consultare\scaricare i file di loro interesse.</p>
+        </div>
+        <div *ngIf="account.role==='Medico'">
+            <p>Lista di tutti i file presenti:</p>
+            <a routerLink="add" class="btn btn-sm btn-success mb-2">Inserisci file</a>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width:30%">Nome del file:</th>
+                        <th style="width:30%">Caricato da:</th>
+                        <th style="width:30%">Paziente:</th>
+                        <th style="width:10%"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let file of files">
+                        <td *ngIf="file.emailMedico===account.email">{{file.nomeFile}}</td>
+                        <td *ngIf="file.emailMedico===account.email">{{account.lastName}} {{account.firstName}}</td>
+                        <td *ngIf="file.emailMedico===account.email">{{getPaziente(file.emailPaziente)}}</td>
+                        <td style="white-space: nowrap" *ngIf="file.emailMedico===account.email">
+                            <button (click)="deleteFile(file.id)" class="btn btn-sm btn-danger btn-delete-account">
+                                <span>Elimina</span>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr *ngIf="!accounts">
+                        <td colspan="4" class="text-center">
+                            <span class="spinner-border spinner-border-lg align-center"></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div *ngIf="account.role==='Paziente'">
+            <p>Lista di tutti i file presenti:</p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width:30%">Nome del file:</th>
+                        <th style="width:30%">Caricato da:</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let file of files">
+                        <td *ngIf="file.emailPaziente===account.email">{{file.nomeFile}}</td>
+                        <td *ngIf="file.emailPaziente===account.email">{{getMedico(file.emailMedico)}}</td>
+                    </tr>
+                    <tr *ngIf="!accounts">
+                        <td colspan="4" class="text-center">
+                            <span class="spinner-border spinner-border-lg align-center"></span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
