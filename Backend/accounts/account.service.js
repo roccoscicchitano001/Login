@@ -86,9 +86,13 @@ async function register(params, origin) {
     // create account object
     const account = new db.Account(params);
 
-    // first registered account is an admin
-    const isFirstAccount = (await db.Account.countDocuments({})) === 0;
-    account.role = isFirstAccount ? Role.Admin : Role.User;
+    // Gestione dei ruoli
+    console.log(params);
+    switch(params.role){
+        case "Admin": account.role = Role.Admin;
+        case "User": account.role = Role.User;
+    }
+
     account.verificationToken = randomTokenString();
 
     // hash password

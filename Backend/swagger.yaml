@@ -214,6 +214,9 @@ paths:
                 email:
                   type: string
                   example: "jason@example.com"
+                role:
+                  type: string
+                  enum: [Admin, User]
                 password:
                   type: string
                   example: "pass123"
@@ -227,6 +230,7 @@ paths:
                 - firstName
                 - lastName
                 - email
+                - role
                 - password
                 - confirmPassword
                 - acceptTerms
