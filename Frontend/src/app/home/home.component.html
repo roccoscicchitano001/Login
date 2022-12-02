@@ -10,7 +10,7 @@
         </div>
         <div *ngIf="account.role==='Medico'">
             <p>Lista di tutti i file presenti:</p>
-            <a routerLink="add" class="btn btn-sm btn-success mb-2">Inserisci file</a>
+            <button class="btn btn-sm btn-success mb-2" (click)="openModal()">Inserisci file</button>
             <table class="table table-striped">
                 <thead>
                     <tr>

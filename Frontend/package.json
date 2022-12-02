@@ -8,7 +8,7 @@
     "test": "npx ng test --browsers=ChromeHeadless",
     "lint": "npx ng lint",
     "e2e": "npx ng e2e"
-    },
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "^14.2.1",
@@ -19,6 +19,7 @@
     "@angular/platform-browser": "^14.2.1",
     "@angular/platform-browser-dynamic": "^14.2.1",
     "@angular/router": "^14.2.1",
+    "mdb-angular-ui-kit": "^3.0.0",
     "rxjs": "^6.5.5",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.4"
