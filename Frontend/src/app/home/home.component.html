@@ -16,16 +16,16 @@
                     <tr>
                         <th style="width:30%">Nome del file:</th>
                         <th style="width:30%">Caricato da:</th>
-                        <th style="width:30%">Paziente:</th>
+                        <th style="width:30%">Utente:</th>
                         <th style="width:10%"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let file of files">
-                        <td *ngIf="file.emailMedico===account.email">{{file.nomeFile}}</td>
-                        <td *ngIf="file.emailMedico===account.email">{{account.lastName}} {{account.firstName}}</td>
-                        <td *ngIf="file.emailMedico===account.email">{{getPaziente(file.emailPaziente)}}</td>
-                        <td style="white-space: nowrap" *ngIf="file.emailMedico===account.email">
+                        <td>{{file.nomeFile}}</td>
+                        <td>{{getMedico(file.emailMedico)}}</td>
+                        <td>{{getPaziente(file.emailPaziente)}}</td>
+                        <td style="white-space: nowrap">
                             <button (click)="deleteFile(file.id)" class="btn btn-sm btn-danger btn-delete-account">
                                 <span>Elimina</span>
                             </button>

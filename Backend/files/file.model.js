@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const schema = new Schema({
     emailMedico: { type: String, required: true },
     emailPaziente: { type: String,  required: true },
-    ifFile: { type: Number,  unique: true, required: true },
+    ifFile: { type: String,  unique: true, required: true },
     nomeFile: { type: String, required: true }
 });
 

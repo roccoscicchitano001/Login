@@ -683,8 +683,8 @@ paths:
                       type: string
                       example: "paziente@mail.com"
                     ifFile:
-                      type: number
-                      example: 1
+                      type: string
+                      example: "aawiodiowj3e3r23"
                     nomeFile:
                       type: string
                       example: "Nome del file"
@@ -710,8 +710,8 @@ paths:
                   type: string
                   example: "paziente@mail.com"
                 ifFile:
-                  type: number
-                  example: 1
+                  type: string
+                  example: "aawiodiowj3e3r23"
                 nomeFile:
                   type: string
                   example: "Nome del file"
@@ -736,8 +736,8 @@ paths:
                     type: string
                     example: "paziente@mail.com"
                   ifFile:
-                    type: number
-                    example: 1
+                    type: string
+                    example: "aawiodiowj3e3r23"
                   nomeFile:
                     type: string
                     example: "Nome del file"
@@ -786,8 +786,8 @@ paths:
                     type: string
                     example: "paziente@mail.com"
                   ifFile:
-                    type: number
-                    example: 1
+                    type: string
+                    example: "aawiodiowj3e3r23"
                   nomeFile:
                     type: string
                     example: "Nome del file"

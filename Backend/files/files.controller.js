@@ -26,7 +26,7 @@ function createSchema(req, res, next) {
     const schema = Joi.object({
         emailMedico: Joi.string().required(),
         emailPaziente: Joi.string().required(),
-        ifFile: Joi.number().required(),
+        ifFile: Joi.string().required(),
         nomeFile: Joi.string().required()
     });
     validateRequest(req, next, schema);

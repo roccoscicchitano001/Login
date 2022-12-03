@@ -55,6 +55,8 @@ export class HomeComponent {
     }
 
     openModal() {
-        this.modalRef = this.modalService.open(ModalComponent)
+        this.modalRef = this.modalService.open(ModalComponent,{
+            modalClass: 'modal-lg'
+          })
     }
 }
