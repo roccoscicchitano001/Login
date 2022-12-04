@@ -8,18 +8,15 @@
     ></button>
   </div>
   <div class="modal-body">
-    <form [formGroup]="form" class="form">
-      <label class="my-1 mr-2" for="inlineFormCustomSelectPref">Utente: </label>
-      <select formControlName="emailPaziente" class="form-control" class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref"  required>
-        <option value=""></option>
-        <option *ngFor="let account of accounts" value="{{account.email}}" >{{account.firstName}} {{account.lastName}} - {{account.email}} - {{account.role}}</option>
-      </select>
-      <input formControlName="file" class="form-label" type="file" id="formFile">
-    </form>
+      <div class="file-upload">
+        <form id="fileUploadForm">
+          <input type="file" name="file" id="fileUploadInput" class="fileInput" (change)="handleFileInput($event.target.files)" required>
+        </form>
+    </div>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-secondary" (click)="modalRef.close()">
       Chiudi
     </button>
-    <button type="button" class="btn btn-primary" (click)="save()">Salva</button>
+    <button type="submit" class="btn btn-primary" (click)="postFile()">Salva</button>
   </div>
