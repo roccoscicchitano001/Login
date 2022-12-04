@@ -9,7 +9,16 @@
   </div>
   <div class="modal-body">
       <div class="file-upload">
-        <form id="fileUploadForm">
+        <form id="fileUploadForm" [formGroup]="form">
+          <div class="input-group mb-3">
+            <div class="input-group-prepend">
+              <label class="input-group-text" for="inputGroupSelect01">Utente: </label>
+            </div>
+            <select formControlName="emailPaziente" class="form-control">
+              <option value=""></option>
+              <option *ngFor="let utenti of accounts" id="emailPaziente" value="{{utenti.email}}">{{utenti.firstName}} {{utenti.lastName}} - {{utenti.email}}, Ruolo: {{utenti.role}}</option>
+            </select>
+          </div>
           <input type="file" name="file" id="fileUploadInput" class="fileInput" (change)="handleFileInput($event.target.files)" required>
         </form>
     </div>

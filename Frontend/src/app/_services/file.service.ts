@@ -34,7 +34,7 @@ export class FileService {
         return this.http.get<File>(`${baseUrl}/${id}`);
     }
 
-    create(params:File) {
+    create(params) {
         return this.http.post(baseUrl, params);
     }
 

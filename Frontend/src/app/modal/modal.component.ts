@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
-import { AccountService } from '@app/_services';
+import { AccountService, AlertService } from '@app/_services';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FileService } from '@app/_services';
 import { UploadService } from '@app/_services';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 
 
@@ -14,47 +16,77 @@ import { UploadService } from '@app/_services';
 })
 
 export class ModalComponent implements OnInit{
+
   account = this.accountService.accountValue;
   accounts : any[];
 
   fileToUpload: File | null = null;
+  fileName:string | null = null;
+  form: FormGroup;
+  loading = false;
+  response: any;
 
 
-  constructor(public modalRef: MdbModalRef<ModalComponent>,private accountService: AccountService, private fileService:FileService,private uploadService:UploadService) {}
+  constructor(public modalRef: MdbModalRef<ModalComponent>,private accountService: AccountService, private fileService:FileService,private uploadService:UploadService, private formBuilder: FormBuilder,private alertService: AlertService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
     this.accountService.getAll()
         .pipe(first())
         .subscribe(accounts => this.accounts = accounts);
+    
+    this.form = this.formBuilder.group({
+      emailMedico: this.account.email,
+      emailPaziente:[null],
+      ifFile:[''],
+      nomeFile:this.fileName
+    });
   }
 
   handleFileInput(files: FileList) {
     this.fileToUpload = files.item(0);
+    this.fileName = files.item(0).name;
   }
 
   postFile() {
+
+    if (this.form.controls.emailPaziente.value==null&&this.fileToUpload==null)
+      return alert ("É necessario inserire i dati richiesti!");
+
+    if (this.form.controls.emailPaziente.value==null)
+      return alert ("É necessario indicare l'indirizzo email dell'utente di riferimento!")
+
+    if (this.fileToUpload==null)
+      return alert("É necessario inserire il file!")
+
     let formData = new FormData();
     formData.append("file", this.fileToUpload);
 
     let req = new XMLHttpRequest();
     req.open("POST", "http://localhost:8080/file/upload")
 
+    var response;
+
     req.onload = function () {
         console.log(req.responseText);
-
-        let response = req.responseText;
-
-        if (response !== null) {
-            let downloadUrl = "http://localhost:8080/file/download/" + response;
-            console.log(downloadUrl);
-        } else {
-            alert("Error Occured! No file returned");
-        }
+        response = req.responseText;
     }
 
+    this.form.controls.ifFile.setValue(req.responseText);
     req.send(formData);
 
+    this.form.controls.nomeFile.setValue(this.fileName)
+
+    this.fileService.create(this.form.value).pipe(first()).subscribe({
+      next: () => {
+          this.alertService.success('Caricamento del file avvenuto con successo!', { keepAfterRouteChange: true });
+      },
+      error: error => {
+          this.alertService.error(error);
+          this.loading = false;
+      }
+  });
+
     this.modalRef.close();
-}
+  }
 
 }
