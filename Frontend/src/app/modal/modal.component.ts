@@ -62,31 +62,36 @@ export class ModalComponent implements OnInit{
     formData.append("file", this.fileToUpload);
 
     let req = new XMLHttpRequest();
-    req.open("POST", "http://localhost:8080/file/upload")
+    req.open("POST", "http://localhost:8080/file/upload",false)
 
-    var response;
-
-    req.onload = function () {
-        console.log(req.responseText);
-        response = req.responseText;
-    }
-
-    this.form.controls.ifFile.setValue(req.responseText);
     req.send(formData);
 
-    this.form.controls.nomeFile.setValue(this.fileName)
+    if (req.responseText!==""&&req.status==200){
+      this.valorizzaUtente(req.responseText);
+    }
+    else{
+      return alert("Errore nel caricamento del file: "+req.statusText);
+    }
+    
+  }
 
-    this.fileService.create(this.form.value).pipe(first()).subscribe({
-      next: () => {
-          this.alertService.success('Caricamento del file avvenuto con successo!', { keepAfterRouteChange: true });
-      },
-      error: error => {
-          this.alertService.error(error);
-          this.loading = false;
+  valorizzaUtente(id){
+    
+    this.form.controls.ifFile.setValue(id);
+    this.form.controls.nomeFile.setValue(this.fileName);
+
+    this.fileService.create(this.form.value).pipe(first()).subscribe({next: () => {
+      this.alertService.success('Caricamento del file avvenuto con successo!', { keepAfterRouteChange: true });
+      this.router.navigateByUrl('/home', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['/modal']);
+    }); 
+    },error: error => {
+        this.alertService.error(error);
+        this.loading = false;
       }
-  });
-
+    });
     this.modalRef.close();
   }
 
+  
 }

@@ -1,6 +1,7 @@
 ﻿import { Component } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { AccountService } from '@app/_services';
+import { AlertService } from '@app/_services';
 import { FileService } from '@app/_services';
 import { ModalComponent } from '@app/modal/modal.component';
 import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
@@ -15,9 +16,10 @@ export class HomeComponent {
     modalRef: MdbModalRef<ModalComponent> | null = null;
 
 
-    constructor(private accountService: AccountService, private fileService:FileService, private modalService: MdbModalService) { }
+    constructor(private accountService: AccountService, private fileService:FileService, private modalService: MdbModalService, private alertService:AlertService) { }
 
     ngOnInit() {
+        
         this.fileService.getAll()
             .pipe(first())
             .subscribe(files => this.files = files);
@@ -25,22 +27,40 @@ export class HomeComponent {
         this.accountService.getAll()
             .pipe(first())
             .subscribe(accounts => this.accounts = accounts);
+
     }
 
     deleteFile(id: string) {
-        const account = this.files.find(x => x.id === id);
         this.fileService.delete(id)
-            .pipe(first())
-            .subscribe(() => {
-                this.files = this.files.filter(x => x.id !== id) 
-            });
+        .pipe(first())
+        .subscribe({next: () => {
+            this.alertService.success('Eliminazione del file avvenuto con successo!', { keepAfterRouteChange: true });
+          },error: error => {
+              this.alertService.error(error);
+            }
+        });
+        window.location.reload();
+    }
+
+    downloadFile(id: string){
+        let downloadUrl = "http://localhost:8080/file/download/" + id;
+        return window.open(downloadUrl);
     }
 
     getPaziente(emailPaziente:string){
         this.i=0;
         for (; this.i<Object.keys(this.accounts).length;this.i++){
             if (this.accounts[this.i].email===emailPaziente){
-                return this.accounts[this.i].firstName + " " + this.accounts[this.i].lastName
+                return this.accounts[this.i].firstName + " " + this.accounts[this.i].lastName;
+            }
+        }
+    }
+
+    getRole(emailPaziente:string){
+        this.i=0;
+        for (; this.i<Object.keys(this.accounts).length;this.i++){
+            if (this.accounts[this.i].email===emailPaziente){
+                return this.accounts[this.i].role;
             }
         }
     }
@@ -59,4 +79,10 @@ export class HomeComponent {
             modalClass: 'modal-lg'
           })
     }
+
+    refrashPage(){
+        window.location.reload();
+    }
+
+    
 }

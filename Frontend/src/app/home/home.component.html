@@ -8,15 +8,18 @@
                I medici, rispetto ai pazienti, avranno un tab in più che consentirà loro di eliminare i files caricati sul database. <br/>
                I pazienti potranno consultare\scaricare i file di loro interesse.</p>
         </div>
-        <div *ngIf="account.role==='Medico'">
+        <div *ngIf="account.role==='Medico'" id="listone">
             <p>Lista di tutti i file presenti:</p>
             <button class="btn btn-sm btn-success mb-2" (click)="openModal()">Inserisci file</button>
+            &nbsp;
+            <button class="btn btn-sm btn btn-primary mb-2" (click)="refrashPage()"><span class="glyphicon glyphicon-refresh"></span> Ricarica</button>
             <table class="table table-striped">
                 <thead>
                     <tr>
                         <th style="width:30%">Nome del file:</th>
                         <th style="width:30%">Caricato da:</th>
                         <th style="width:30%">Utente:</th>
+                        <th style="width:30%">Ruolo:</th>
                         <th style="width:10%"></th>
                     </tr>
                 </thead>
@@ -25,7 +28,16 @@
                         <td>{{file.nomeFile}}</td>
                         <td>{{getMedico(file.emailMedico)}}</td>
                         <td>{{getPaziente(file.emailPaziente)}}</td>
+                        <td>{{getRole(file.emailPaziente)}}</td>
                         <td style="white-space: nowrap">
+                            <button type="button" class="btn btn-sm btn btn-success" (click)="downloadFile(file.ifFile)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path>
+                                    <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path>
+                                </svg>
+                                Scarica
+                            </button>
+                            &nbsp;
                             <button (click)="deleteFile(file.id)" class="btn btn-sm btn-danger btn-delete-account">
                                 <span>Elimina</span>
                             </button>
@@ -41,17 +53,28 @@
         </div>
         <div *ngIf="account.role==='Paziente'">
             <p>Lista di tutti i file presenti:</p>
+            <button class="btn btn-sm btn btn-primary mb-2" (click)="refrashPage()"><span class="glyphicon glyphicon-refresh"></span> Ricarica</button>
             <table class="table table-striped">
                 <thead>
                     <tr>
                         <th style="width:30%">Nome del file:</th>
                         <th style="width:30%">Caricato da:</th>
+                        <th style="width:10%"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let file of files">
                         <td *ngIf="file.emailPaziente===account.email">{{file.nomeFile}}</td>
                         <td *ngIf="file.emailPaziente===account.email">{{getMedico(file.emailMedico)}}</td>
+                        <td style="white-space: nowrap" *ngIf="file.emailPaziente===account.email">
+                            <button type="button" class="btn btn-sm btn btn-success" (click)="downloadFile(file.ifFile)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"></path>
+                                    <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"></path>
+                                </svg>
+                                Scarica
+                            </button>
+                        </td>
                     </tr>
                     <tr *ngIf="!accounts">
                         <td colspan="4" class="text-center">

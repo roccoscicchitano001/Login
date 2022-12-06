@@ -12,9 +12,9 @@ async function getAll() {
     return files.map(x => basicDetails(x));
 }
 
-function basicDetails(account) {
-    const { id, emailMedico, emailPaziente, idFile, nomeFile } = account;
-    return { id, emailMedico, emailPaziente, idFile, nomeFile };
+function basicDetails(file) {
+    const { id, emailMedico, emailPaziente, ifFile, nomeFile } = file;
+    return { id, emailMedico, emailPaziente, ifFile, nomeFile };
 }
 
 async function create(params) {
@@ -25,7 +25,7 @@ async function create(params) {
 
     const file = new db.File(params);
 
-    // save account
+    // save file
     await file.save();
 }
 
